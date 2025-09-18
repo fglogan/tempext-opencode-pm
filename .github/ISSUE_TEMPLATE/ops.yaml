@@ -1,0 +1,78 @@
+name: Operations Request
+description: Request operational changes, runbooks, or infrastructure updates
+title: "[OPS] "
+labels: ["type:ops", "status:needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Operations Request
+
+        Request operational changes, monitoring, runbooks, or infrastructure updates.
+
+  - type: textarea
+    id: request
+    attributes:
+      label: Request Description
+      description: What operational change or task are you requesting?
+      placeholder: "I need to add monitoring for... or create a runbook for..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Background
+      description: Why is this needed? What problem does it solve?
+      placeholder: "This is needed because currently... The impact is..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ops-type
+    attributes:
+      label: Operations Type
+      description: What type of operational work is this?
+      options:
+        - Monitoring & Observability
+        - Runbook & Documentation
+        - Infrastructure & Deployment
+        - Backup & Recovery
+        - Security & Compliance
+        - Performance & Scaling
+        - Incident Response
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Expected Deliverables
+      description: What should be delivered as a result?
+      placeholder: |
+        - [ ] Runbook document
+        - [ ] Monitoring dashboard
+        - [ ] Infrastructure as code
+        - [ ] Automated scripts
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How urgent is this request?
+      options:
+        - High - Affects production or security
+        - Medium - Important for operations
+        - Low - Nice to have improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: stakeholders
+    attributes:
+      label: Stakeholders
+      description: Who needs to be involved or notified?
+      placeholder: "@team-member, @security-team, etc."

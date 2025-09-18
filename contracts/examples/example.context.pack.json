@@ -1,0 +1,5 @@
+{
+  "ko_id": "ko://context/pack/123",
+  "items": [{"id": "ko://repo/abc"}, {"id": "ko://analysis/report/xyz"}],
+  "redactions": ["pii.email", "secrets.env"]
+}

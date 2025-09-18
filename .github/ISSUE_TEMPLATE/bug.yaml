@@ -1,0 +1,91 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels: ["type:bug", "status:needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+
+        Help us improve by reporting bugs! Please provide as much detail as possible.
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this bug?
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: "I expected to see..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "Instead, I saw..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs & Error Messages
+      description: Any relevant logs, error messages, or stack traces
+      placeholder: |
+        ```
+        Error message here
+        ```
+      render: shell
+
+  - type: textarea
+    id: ko-refs
+    attributes:
+      label: KO References
+      description: Any relevant knowledge object references
+      placeholder: "ko://task/123, ko://log/456"
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - Critical - System unusable
+        - High - Major functionality broken
+        - Medium - Feature partially broken
+        - Low - Minor issue or cosmetic
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of the system is affected?
+      options:
+        - API Server
+        - Event Bus
+        - Queue Engine
+        - Policy Engine
+        - Storage Layer
+        - CLI Tool
+        - HITL Interface
+        - Documentation
+        - CI/CD Pipeline
+        - Other
+    validations:
+      required: true

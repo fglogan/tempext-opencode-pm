@@ -1,0 +1,10 @@
+{
+  "ko_id": "ko://task/runlog/555",
+  "task_id": "task-123",
+  "attempt": 1,
+  "confidence": 0.86,
+  "entries": [
+    { "ts": "2025-09-18T11:30:00Z", "level": "info", "msg": "dispatch" },
+    { "ts": "2025-09-18T11:30:05Z", "level": "info", "msg": "SSE verdict pass" }
+  ]
+}

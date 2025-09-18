@@ -1,0 +1,12 @@
+name: Feature
+description: Add or change a capability
+labels: ["type:feat"]
+body:
+  - type: textarea
+    attributes: { label: Problem, placeholder: What outcome do we want? }
+  - type: textarea
+    attributes: { label: Events, placeholder: Which topics are produced/consumed? }
+  - type: textarea
+    attributes: { label: KO Outputs, placeholder: Which KOs will be emitted? }
+  - type: textarea
+    attributes: { label: Acceptance, placeholder: How do we know it's done? }

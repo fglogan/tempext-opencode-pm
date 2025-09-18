@@ -1,0 +1,10 @@
+name: Spec
+description: Contracts, schemas, examples
+labels: ["type:spec","area:contracts"]
+body:
+  - type: textarea
+    attributes: { label: Contract, placeholder: Describe endpoints/events }
+  - type: textarea
+    attributes: { label: Schemas, placeholder: List JSON schemas to add/update }
+  - type: textarea
+    attributes: { label: Examples, placeholder: Provide example payloads }

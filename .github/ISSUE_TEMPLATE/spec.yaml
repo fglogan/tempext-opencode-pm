@@ -1,0 +1,97 @@
+name: Specification Change
+description: Propose changes to contracts, schemas, or specifications
+title: "[SPEC] "
+labels: ["type:spec", "status:needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Specification Change Request
+
+        Propose changes to contracts, event schemas, or API specifications.
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: What is the current specification?
+      placeholder: "Currently, the API defines..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed Change
+      description: What changes are you proposing?
+      placeholder: "I propose changing the API to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this change needed?
+      placeholder: "This change is needed because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact Assessment
+      description: What systems or components would be affected?
+      placeholder: |
+        **Affected Components:**
+        - Component A: [impact]
+        - Component B: [impact]
+
+        **Breaking Changes:** Yes/No
+        **Migration Path:** [describe if needed]
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples
+      description: Provide examples of the proposed change
+      placeholder: |
+        **Before:**
+        ```json
+        { "old": "format" }
+        ```
+
+        **After:**
+        ```json
+        { "new": "format" }
+        ```
+    validations:
+      required: true
+
+  - type: dropdown
+    id: spec-type
+    attributes:
+      label: Specification Type
+      description: What type of specification is being changed?
+      options:
+        - Event Schema
+        - API Contract
+        - KO Schema
+        - Configuration Schema
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Breaking Change?
+      description: Is this a breaking change?
+      options:
+        - Yes - Requires migration
+        - No - Backward compatible
+        - Maybe - Depends on implementation
+    validations:
+      required: true

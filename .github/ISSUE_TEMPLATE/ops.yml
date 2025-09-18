@@ -1,0 +1,10 @@
+name: Ops
+description: Runbooks, dashboards, metrics
+labels: ["type:ops"]
+body:
+  - type: textarea
+    attributes: { label: Runbook }
+  - type: textarea
+    attributes: { label: Dashboards }
+  - type: textarea
+    attributes: { label: Alerts }

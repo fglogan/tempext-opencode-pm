@@ -1,0 +1,14 @@
+{
+  "$id": "ko://schemas/context.pack.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ko_id", "items"],
+  "properties": {
+    "ko_id": { "type": "string" },
+    "items": {
+      "type": "array",
+      "items": { "type": "object", "required": ["id"], "properties": { "id": { "type": "string" } } }
+    },
+    "redactions": { "type": "array", "items": { "type": "string" } }
+  }
+}

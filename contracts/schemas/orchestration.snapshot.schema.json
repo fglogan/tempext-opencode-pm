@@ -1,0 +1,12 @@
+{
+  "$id": "ko://schemas/orchestration.snapshot.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ko_id", "project_id", "created_at", "state"],
+  "properties": {
+    "ko_id": { "type": "string" },
+    "project_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "state": { "type": "object" }
+  }
+}

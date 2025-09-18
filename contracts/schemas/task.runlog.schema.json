@@ -1,0 +1,18 @@
+{
+  "$id": "ko://schemas/task.runlog.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ko_id", "task_id", "attempt", "entries"],
+  "properties": {
+    "ko_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "attempt": { "type": "integer" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "entries": {
+      "type": "array",
+      "items": { "type": "object", "required": ["ts", "msg"], "properties": {
+        "ts": { "type": "string" }, "msg": { "type": "string" }, "level": { "type": "string" }
+      } }
+    }
+  }
+}

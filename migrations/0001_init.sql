@@ -1,0 +1,2 @@
+-- minimal ledger tables; extend when wiring real DB
+-- (safe to keep placeholder for now)
