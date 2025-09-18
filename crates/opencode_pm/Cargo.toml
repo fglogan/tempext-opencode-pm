@@ -17,6 +17,9 @@ time = { version = "0.3", features=["macros","serde"] }
 http = "1"
 opencode_pm_core = { path = "../opencode_pm_core" }
 parking_lot = "0.12"
+anyhow = "1"
+dirs = "5"
+keyring = "2"
 
 # stubs; wire these later
 # sqlx = { version = "0.7", features = ["runtime-tokio","postgres","macros"], optional = true }
