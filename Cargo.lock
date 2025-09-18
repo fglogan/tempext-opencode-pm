@@ -440,6 +440,8 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "http",
+ "opencode_pm_core",
+ "parking_lot",
  "serde",
  "serde_json",
  "thiserror",
@@ -448,6 +450,17 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "uuid",
+]
+
+[[package]]
+name = "opencode_pm_core"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]

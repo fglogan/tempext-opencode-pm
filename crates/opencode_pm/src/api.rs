@@ -2,7 +2,7 @@ use axum::{http::StatusCode, Json};
 use serde::Serialize;
 
 #[derive(Serialize)]
-struct Health {
+pub struct Health {
     status: &'static str,
 }
 

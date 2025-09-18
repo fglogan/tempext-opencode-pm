@@ -1,4 +1,4 @@
-use crate::laio_service::{LAIO_Service, VOS_Error, VOS_Message};
+use crate::laio_service::{LaioService, VosError, VosMessage};
 use async_trait::async_trait;
 use serde_json::json;
 use std::sync::Arc;
@@ -8,11 +8,21 @@ use std::sync::Arc;
 pub struct ContextService;
 
 #[async_trait]
-impl LAIO_Service for ContextService {
-    fn service_name(&self) -> &'static str { "context_service" }
-    fn capabilities(&self) -> Vec<String> { vec!["context.fetch".into()] }
-    async fn handle_message(&self, message: VOS_Message) -> Result<VOS_Message, VOS_Error> {
-        let path = message.payload.get("path").and_then(|v| v.as_str()).unwrap_or(".");
+impl LaioService for ContextService {
+    fn service_name(&self) -> &'static str {
+        "context_service"
+    }
+
+    fn capabilities(&self) -> Vec<String> {
+        vec!["context.fetch".into()]
+    }
+
+    async fn handle_message(&self, message: VosMessage) -> Result<VosMessage, VosError> {
+        let path = message
+            .payload
+            .get("path")
+            .and_then(|v| v.as_str())
+            .unwrap_or(".");
         let result = json!({
             "path": path,
             "ko_refs": [
@@ -20,7 +30,11 @@ impl LAIO_Service for ContextService {
                 {"id":"ko://schemas/opencode_pm.openapi.json"}
             ]
         });
-        Ok(VOS_Message { target: "context_service".into(), op: "context.fetch.ok".into(), payload: result })
+        Ok(VosMessage {
+            target: "context_service".into(),
+            op: "context.fetch.ok".into(),
+            payload: result,
+        })
     }
 }
 
