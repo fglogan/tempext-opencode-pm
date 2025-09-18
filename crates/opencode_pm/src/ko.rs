@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct KoRef { pub id: String }
+pub struct KoRef {
+    pub id: String,
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ContextPack {

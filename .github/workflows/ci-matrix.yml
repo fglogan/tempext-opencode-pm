@@ -1,0 +1,49 @@
+name: CI (TES-2025)
+on: [push, pull_request]
+jobs:
+  gates:
+    runs-on: macos-latest   # macOS Sequoia friendly
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with: { components: rustfmt, clippy }
+      - name: Setup yq
+        run: brew install yq || true
+      - name: Read maturity
+        id: level
+        run: echo "level=$(yq '.maturity' .laio/constitution.yaml)" >> $GITHUB_OUTPUT
+
+      - name: L1 — fmt/clippy/tests
+        if: ${{ steps.level.outputs.level >= 1 }}
+        run: |
+          cargo fmt --all -- --check
+          cargo clippy --all-targets --all-features -- -D warnings
+          cargo test --all -- --nocapture
+
+      - name: Install L2+ deps
+        if: ${{ steps.level.outputs.level >= 2 }}
+        run: cargo install cargo-tarpaulin || true
+      - name: L2 — coverage
+        if: ${{ steps.level.outputs.level >= 2 }}
+        run: cargo tarpaulin --out Xml --fail-under 80
+
+      - name: Install L3+ deps
+        if: ${{ steps.level.outputs.level >= 3 }}
+        run: |
+          cargo install cargo-audit || true
+          cargo install cargo-deny || true
+          cargo install cargo-vet || true
+          cargo install cargo-mutants || true
+          brew install mdbook || true
+      - name: L3 — security/docs/reliability
+        if: ${{ steps.level.outputs.level >= 3 }}
+        run: |
+          cargo audit
+          cargo deny check
+          cargo vet check
+          mdbook build docs || true
+          cargo mutants --no-shuffle --timeout 10 --min-score 90
+
+      - name: L4 — (placeholder) E2E
+        if: ${{ steps.level.outputs.level >= 4 }}
+        run: echo "TODO: WebDriverIO E2E"

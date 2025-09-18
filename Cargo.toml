@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/opencode_pm"]
+members = ["crates/opencode_pm", "crates/opencode_pm_core"]
 resolver = "2"
 
 [workspace.package]

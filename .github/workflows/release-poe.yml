@@ -1,0 +1,23 @@
+name: Release (PoE)
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*.*.*"]
+jobs:
+  poe:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cargo build --release
+      - name: SBOM
+        run: |
+          cargo install cargo-bom || true
+          cargo bom > audit/sbom.cdx.json
+      - name: Assemble PoE bundle
+        run: |
+          ts=$(date -u +%Y%m%dT%H%M%SZ)
+          zip -r audit/poe-${ts}.cdx.zip target/release/ audit/sbom.cdx.json .laio/ docs/ contracts/ schemas/
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with: { name: poe-bundle, path: audit/*.zip }

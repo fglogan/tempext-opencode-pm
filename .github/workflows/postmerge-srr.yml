@@ -1,0 +1,18 @@
+name: SRR Gate
+on:
+  push:
+    branches: [main]
+jobs:
+  srr:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gather thesis (PR merge) + PoE
+        run: |
+          echo "Collecting recent merge context..."
+          ls -la audit || true
+      - name: Synthesize reflection (stub)
+        run: |
+          echo "Would call A3-SYNTHESIZER here with Thesis vs Antithesis, produce ADR delta."
+      - name: Open governance PR (stub)
+        run: echo "Would open PR to governance repo with ADR changes."

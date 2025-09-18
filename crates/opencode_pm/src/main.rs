@@ -21,5 +21,8 @@ async fn main() {
         .unwrap_or(8080);
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
     tracing::info!("OpenCode PM up at http://{addr}");
-    axum::Server::bind(&addr).serve(app.into_make_service()).await.unwrap();
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }

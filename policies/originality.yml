@@ -1,0 +1,6 @@
+originality:
+  check_plagiarism: true
+  max_similarity: 0.15
+  redaction_fields:
+    - pii.email
+    - secrets.env

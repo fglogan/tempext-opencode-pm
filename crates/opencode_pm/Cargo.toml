@@ -15,6 +15,8 @@ thiserror = "1"
 uuid = { version = "1", features = ["v4","serde"] }
 time = { version = "0.3", features=["macros","serde"] }
 http = "1"
+opencode_pm_core = { path = "../opencode_pm_core" }
+parking_lot = "0.12"
 
 # stubs; wire these later
 # sqlx = { version = "0.7", features = ["runtime-tokio","postgres","macros"], optional = true }

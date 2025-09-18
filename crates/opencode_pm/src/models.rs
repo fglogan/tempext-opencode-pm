@@ -3,10 +3,18 @@ use time::OffsetDateTime;
 use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Project { pub id: Uuid, pub name: String, pub created_at: OffsetDateTime }
+pub struct Project {
+    pub id: Uuid,
+    pub name: String,
+    pub created_at: OffsetDateTime,
+}
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Queue { pub id: Uuid, pub project_id: Uuid, pub name: String }
+pub struct Queue {
+    pub id: Uuid,
+    pub project_id: Uuid,
+    pub name: String,
+}
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Task {
