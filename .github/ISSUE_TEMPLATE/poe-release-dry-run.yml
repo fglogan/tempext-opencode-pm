@@ -1,0 +1,61 @@
+name: PoE Release Dry-Run
+description: Test PoE bundle creation and release process
+labels: ["type:ops", "area:release", "prio:P1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## PoE Release Dry-Run
+
+        Test the Proof of Execution release bundle creation process.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Create test tag (v0.1.0-test) on feature branch
+        - Trigger `Release (PoE)` workflow manually
+        - Verify SBOM generation with `cargo-bom`
+        - Check PoE bundle creation in `audit/` directory
+        - Validate bundle contents (binaries, schemas, docs)
+        - Test artifact upload to GitHub releases
+        - Verify checksum integrity of bundled artifacts
+        - Document release process for future use
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] PoE bundle created successfully in `audit/` directory
+        - [ ] SBOM contains all dependencies with licenses
+        - [ ] Bundle includes binaries, schemas, docs, and constitution
+        - [ ] Checksums validate correctly across bundle contents
+        - [ ] GitHub artifact upload works without errors
+        - [ ] Release process documented in ARCHIVE.md
+        - [ ] Bundle size and contents meet expectations
+  - type: textarea
+    attributes:
+      label: Example Bundle Contents
+      value: |
+        ```
+        audit/poe-20250918T143000.cdx.zip
+        ├── target/release/opencode-pm          # Compiled binary
+        ├── audit/sbom.cdx.json                 # Software bill of materials
+        ├── .laio/constitution.yaml             # Project constitution
+        ├── docs/ARCHIVE.md                     # Master documentation
+        ├── contracts/                          # API contracts
+        │   ├── schemas/*.json
+        │   └── examples/*.json
+        └── schemas/opencode_pm.openapi.json    # OpenAPI spec
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Low - Workflow testing + documentation
+        - Medium - SBOM generation + bundle validation
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 4-6 hours - Workflow testing + documentation

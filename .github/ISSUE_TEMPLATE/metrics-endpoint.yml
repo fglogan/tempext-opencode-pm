@@ -1,0 +1,68 @@
+name: Metrics Endpoint
+description: Expose Prometheus metrics for monitoring
+labels: ["type:feat", "area:observability", "prio:P1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Metrics Endpoint
+
+        Implement Prometheus-compatible metrics endpoint for monitoring.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Add Prometheus client library integration
+        - Create queue depth gauge metrics per queue
+        - Add dispatch latency histogram (p50, p95, p99)
+        - Implement success/failure rate counters
+        - Add HITL decision rate and latency metrics
+        - Create attempt lifecycle metrics
+        - Add service health and uptime metrics
+        - Implement `/metrics` endpoint with proper content-type
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] `/metrics` endpoint returns Prometheus format
+        - [ ] Queue depth metrics update in real-time
+        - [ ] Dispatch latency percentiles calculated correctly
+        - [ ] Success/failure rates accurate over time windows
+        - [ ] HITL metrics track decision patterns
+        - [ ] Service health metrics reflect actual status
+        - [ ] Metrics collection doesn't impact performance
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```prometheus
+        # Queue metrics
+        opencode_pm_queue_depth{queue="analyze"} 5
+        opencode_pm_queue_depth{queue="security"} 2
+
+        # Performance metrics
+        opencode_pm_dispatch_duration_bucket{le="0.1"} 120
+        opencode_pm_dispatch_duration_bucket{le="1.0"} 150
+        opencode_pm_dispatch_duration_count 150
+
+        # Success metrics
+        opencode_pm_task_completed_total{queue="analyze"} 1250
+        opencode_pm_task_failed_total{queue="analyze"} 25
+
+        # HITL metrics
+        opencode_pm_hitl_decisions_total{decision="approve"} 45
+        opencode_pm_hitl_decisions_total{decision="deny"} 12
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Low - Standard Prometheus integration
+        - Medium - Custom metrics collection logic
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 6-10 hours - Metrics collection + endpoint + testing

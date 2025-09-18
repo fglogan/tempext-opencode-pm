@@ -1,0 +1,64 @@
+name: Ingest Event Subscriber
+description: Listen for KO events and route to appropriate queues
+labels: ["type:feat", "area:eventing", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Ingest Event Subscriber
+
+        Subscribe to Ingest events and route KOs to appropriate queues.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Add NATS client for event subscription
+        - Subscribe to `KO.Created` and `KO.Tagged` events
+        - Implement routing rules based on tags and standards
+        - Add queue auto-creation for new tag combinations
+        - Implement provenance tracking for routed KOs
+        - Add event deduplication to prevent duplicate processing
+        - Create routing metrics and monitoring
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] KOs tagged with `tes-2025` land in `analyze` queue
+        - [ ] KOs tagged with `security-critical` land in `security` queue
+        - [ ] KOs tagged with `performance-issue` land in `performance` queue
+        - [ ] New tag combinations trigger queue auto-creation
+        - [ ] Event processing is idempotent (no duplicates)
+        - [ ] Routing metrics exposed for monitoring
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        let ingest_subscriber = IngestSubscriber::new(nats_client, queue_manager)?;
+        ingest_subscriber.subscribe().await?;
+
+        // Event processing
+        match event {
+            KoCreated { ko_ref, tags, standards, .. } => {
+                let queue_name = route_by_tags(tags, standards)?;
+                queue_manager.enqueue(queue_name, ko_ref).await?;
+            }
+            KoTagged { ko_ref, added_tags, .. } => {
+                let new_queue = route_by_tags(added_tags, vec![])?;
+                queue_manager.move_task(ko_ref, new_queue).await?;
+            }
+        }
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - Event subscription + routing logic
+        - High - Auto queue creation + deduplication
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 8-12 hours - Event handling + routing + auto-creation

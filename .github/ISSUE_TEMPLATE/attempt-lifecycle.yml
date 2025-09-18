@@ -1,0 +1,76 @@
+name: Attempt Lifecycle + Runlog KO
+description: Implement task attempt tracking with runlog persistence
+labels: ["type:feat", "area:core", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Attempt Lifecycle + Runlog KO
+
+        Implement task attempt lifecycle with runlog KO persistence.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Create attempt state machine (pending → running → completed/failed)
+        - Implement attempt start/finish tracking with timestamps
+        - Add heartbeat mechanism for long-running tasks
+        - Create runlog KO generation with structured logging
+        - Implement retry logic with jitter for transient failures
+        - Add crash-safe resume capability
+        - Create attempt metrics and monitoring
+        - Implement attempt cleanup for old/completed tasks
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Transient failures trigger exactly 3 retries with jitter
+        - [ ] Long-running tasks send heartbeats every 30 seconds
+        - [ ] Runlog KOs contain complete execution history
+        - [ ] Crash recovery resumes attempts from last known state
+        - [ ] Attempt cleanup removes old completed tasks
+        - [ ] Attempt metrics track success/failure rates
+        - [ ] Concurrent attempts don't interfere with each other
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        let attempt_manager = AttemptManager::new(osm_client)?;
+
+        // Start attempt
+        let attempt = attempt_manager.start_attempt(task_id).await?;
+        attempt_manager.send_heartbeat(attempt.id).await?;
+
+        // Process with logging
+        let mut runlog = RunLog::new(attempt.id);
+        runlog.log(LogEntry::info("Starting task processing"));
+
+        match process_task(task).await {
+            Ok(result) => {
+                runlog.log(LogEntry::info("Task completed successfully"));
+                attempt_manager.complete_attempt(attempt.id, runlog).await?;
+            }
+            Err(error) => {
+                runlog.log(LogEntry::error(&format!("Task failed: {}", error)));
+                if attempt.retry_count < 3 {
+                    attempt_manager.retry_attempt(attempt.id, runlog).await?;
+                } else {
+                    attempt_manager.fail_attempt(attempt.id, runlog).await?;
+                }
+            }
+        }
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - State machine + logging + retry logic
+        - High - Crash recovery + concurrent safety
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 10-14 hours - Lifecycle + runlog + retry + recovery

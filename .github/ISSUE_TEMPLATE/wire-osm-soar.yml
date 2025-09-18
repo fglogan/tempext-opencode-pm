@@ -1,0 +1,54 @@
+name: Wire OSM/SOAR Adapter
+description: Implement real I/O for OSM/SOAR integration
+labels: ["type:feat", "area:storage", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Wire OSM/SOAR Adapter (Real I/O)
+
+        Implement client for OSM/SOAR with real storage and retrieval operations.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Add HTTP client crate (reqwest) with proper error handling
+        - Add environment variables: `OSM_BASE_URL`, `OSM_TOKEN`, `SOAR_BASE_URL`
+        - Implement `store_ko()` function with checksum validation
+        - Implement `get_ko()` function with content streaming
+        - Implement `vector_query()` for semantic search
+        - Add retry logic with exponential backoff
+        - Add connection pooling and timeout configuration
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Round-trip a `ContextPack` KO ≥10 MB successfully
+        - [ ] Checksum validation matches between store/retrieve
+        - [ ] Vector queries return relevant results with scores
+        - [ ] Error handling for network failures and auth issues
+        - [ ] Integration tests with mock OSM/SOAR server
+        - [ ] Performance benchmarks for large file uploads
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        let osm_client = OsmClient::new(config)?;
+        let ko_ref = osm_client.store_ko(context_pack).await?;
+        let retrieved = osm_client.get_ko(&ko_ref).await?;
+        assert_eq!(original_checksum, retrieved.checksum);
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - HTTP client + error handling
+        - High - Complex retry logic and streaming
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 8-12 hours - Client implementation + tests

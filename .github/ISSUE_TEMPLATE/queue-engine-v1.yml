@@ -1,0 +1,70 @@
+name: Queue Engine v1 (Priority/Fairness/Backoff)
+description: Implement in-memory queue with priority and fairness
+labels: ["type:feat", "area:core", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Queue Engine v1 (Priority/Fairness/Backoff)
+
+        Implement in-memory queue engine with priority handling and fairness.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Create in-memory queue data structure with priority queues
+        - Implement priority-based task scheduling (1-10 scale)
+        - Add fairness algorithm to prevent queue starvation
+        - Implement exponential backoff for failed tasks
+        - Add rate limiting per queue and globally
+        - Create queue metrics (depth, throughput, latency)
+        - Add queue persistence interface for future Redis integration
+        - Implement queue draining and pause/resume functionality
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] No starvation over 10k synthetic tasks with mixed priorities
+        - [ ] P95 dispatch latency < 200ms under normal load
+        - [ ] Priority 10 tasks processed before priority 1 tasks
+        - [ ] Failed tasks retry with exponential backoff (1s, 2s, 4s...)
+        - [ ] Rate limiting prevents queue overflow
+        - [ ] Queue metrics accurately reflect performance
+        - [ ] Pause/resume functionality works correctly
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        let queue_engine = QueueEngine::new(config)?;
+
+        // Enqueue with priority
+        queue_engine.enqueue(Task {
+            id: task_id,
+            priority: 8,
+            queue_name: "analyze".to_string(),
+            ko_refs: vec![ko_ref],
+        }).await?;
+
+        // Process tasks
+        while let Some(task) = queue_engine.dequeue().await? {
+            let result = process_task(task).await?;
+            match result {
+                Ok(_) => queue_engine.mark_completed(task.id).await?,
+                Err(_) => queue_engine.mark_failed(task.id).await?,
+            }
+        }
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - Priority queues + backoff logic
+        - High - Fairness algorithm + metrics collection
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 12-16 hours - Queue implementation + algorithms + metrics

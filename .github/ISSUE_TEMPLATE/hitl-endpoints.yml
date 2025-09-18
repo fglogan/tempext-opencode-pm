@@ -1,0 +1,74 @@
+name: HITL Endpoints for 3-Pane TUI
+description: Implement human-in-the-loop decision endpoints
+labels: ["type:feat", "area:hitl", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## HITL Endpoints for 3-Pane TUI
+
+        Implement REST endpoints for human-in-the-loop decisions.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Create `POST /v1/hitl/approve` endpoint with idempotency
+        - Create `POST /v1/hitl/deny` endpoint with reason capture
+        - Create `POST /v1/hitl/comment` endpoint for feedback
+        - Add role-based access control for HITL decisions
+        - Implement audit trail persistence for all decisions
+        - Add decision validation (task state, user permissions)
+        - Create `HITL.Decision` event emission
+        - Add decision metrics and monitoring
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] `HITL.Decision` events emitted for all decisions
+        - [ ] Audit trail contains complete decision history
+        - [ ] Idempotent operations prevent duplicate processing
+        - [ ] Role-based access prevents unauthorized decisions
+        - [ ] Decision validation prevents invalid state transitions
+        - [ ] Metrics track decision latency and frequency
+        - [ ] Error handling for network issues and timeouts
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        // Approve a task
+        let approval = HitlApproval {
+            task_id: task_id,
+            user_id: user_id,
+            decision: Decision::Approve,
+            comments: "Looks good, proceed with analysis".to_string(),
+            attachments: vec![ko_ref],
+        };
+
+        let result = hitl_client.approve_task(approval).await?;
+        assert_eq!(result.status, "approved");
+
+        // Deny with reason
+        let denial = HitlDenial {
+            task_id: task_id,
+            user_id: user_id,
+            reason: DenialReason::SecurityConcern,
+            comments: "Potential security vulnerability detected".to_string(),
+        };
+
+        let result = hitl_client.deny_task(denial).await?;
+        assert_eq!(result.status, "denied");
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - REST endpoints + validation + events
+        - High - Idempotency + audit trail + RBAC
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 8-12 hours - Endpoints + validation + audit + events

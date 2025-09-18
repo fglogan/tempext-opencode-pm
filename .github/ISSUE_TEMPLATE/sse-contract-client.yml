@@ -1,0 +1,58 @@
+name: SSE Contract Client + Verdict Handler
+description: Implement SSE policy evaluation and verdict processing
+labels: ["type:feat", "area:policy", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## SSE Contract Client + Verdict Handler
+
+        Implement client for Symbolic-Semantic Engine policy evaluation.
+  - type: textarea
+    attributes:
+      label: Implementation Tasks
+      value: |
+        - Add SSE client with `POST /v1/sse/evaluate` endpoint
+        - Implement policy profile loading and validation
+        - Add verdict event subscription (`SSE.Verdict`)
+        - Implement confidence threshold checking (≥0.80)
+        - Add policy decision routing logic
+        - Create `NeedsHITL` event emission for low confidence
+        - Add SSE response caching for performance
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Tasks with confidence < 0.80 trigger `NeedsHITL` event
+        - [ ] Tasks with confidence ≥ 0.80 proceed automatically
+        - [ ] SSE verdicts are properly logged with KO references
+        - [ ] Policy profiles are validated before evaluation
+        - [ ] Error handling for SSE service unavailability
+        - [ ] Performance monitoring for evaluation latency
+  - type: textarea
+    attributes:
+      label: Example Usage
+      value: |
+        ```rust
+        let sse_client = SseClient::new(config)?;
+        let evaluation = sse_client.evaluate_policy(ko_refs, profile).await?;
+
+        match evaluation.confidence {
+            c if c >= 0.80 => emit_task_proceed(task_id),
+            c if c < 0.80 => emit_needs_hitl(task_id, c, reason),
+            _ => emit_policy_error(task_id, "Invalid confidence"),
+        }
+        ```
+  - type: dropdown
+    attributes:
+      label: Risk Level
+      description: Implementation complexity
+      options:
+        - Medium - HTTP client + event handling
+        - High - Confidence routing + error recovery
+  - type: dropdown
+    attributes:
+      label: Effort Estimate
+      description: Development time
+      options:
+        - 10-14 hours - Client + event handling + routing logic
