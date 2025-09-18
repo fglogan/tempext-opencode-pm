@@ -1,0 +1,105 @@
+name: Task Implementation
+description: Granular task with predecessors/successors per TES-2025 scheduling
+labels: ["type:task", "area:implementation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Task Implementation
+
+        Execute granular task per TES-2025 event-driven scheduling specification.
+  - type: textarea
+    attributes:
+      label: Task Definition
+      value: |
+        **Task ID**: [TASK-ID]
+        **Type**: [Implementation|Integration|Testing|Documentation|Analysis]
+        **Description**: [Brief task description]
+  - type: textarea
+    attributes:
+      label: Predecessors
+      value: |
+        **Required Predecessors**: [TASK-ID1, TASK-ID2]
+        **Either/Or Conditions**: [Either: TASK-ID3 or TASK-ID4]
+        **Blocking Events**: [List of events that must occur before starting]
+  - type: textarea
+    attributes:
+      label: Successors
+      value: |
+        **Required Successors**: [TASK-ID5, TASK-ID6]
+        **Optional Successors**: [TASK-ID7, TASK-ID8]
+        **Gate Triggers**: [GATE-ID if this task completes a gate]
+  - type: textarea
+    attributes:
+      label: Deliverables
+      value: |
+        **KO References**: [List of knowledge objects to be created/updated]
+        **Artifacts**: [Files, binaries, documentation to be produced]
+        **Test Results**: [Test cases and validation criteria]
+        **Documentation**: [Docs, examples, specifications to be updated]
+  - type: textarea
+    attributes:
+      label: Implementation Steps
+      value: |
+        1. [Step 1 with specific actions]
+        2. [Step 2 with deliverables]
+        3. [Step 3 with validation criteria]
+        4. [Step 4 with testing requirements]
+        5. [Step 5 with completion criteria]
+  - type: textarea
+    attributes:
+      label: Validation Criteria
+      value: |
+        **Automated Validation**:
+        - [ ] Unit tests pass for new functionality
+        - [ ] Integration tests validate component interaction
+        - [ ] Static analysis clean (no new warnings)
+        - [ ] Build verification successful
+
+        **Manual Validation**:
+        - [ ] Code review completed
+        - [ ] Documentation updated and accurate
+        - [ ] Examples working as expected
+        - [ ] Edge cases handled appropriately
+  - type: textarea
+    attributes:
+      label: Success Events
+      value: |
+        **Completion Events to Emit**:
+        - [ ] `TASK-ID.completed` with success metadata
+        - [ ] `KO.created` for each new knowledge object
+        - [ ] `ARTIFACT.generated` for build artifacts
+        - [ ] `TEST.passed` for validation results
+  - type: textarea
+    attributes:
+      label: Risk Assessment
+      value: |
+        **Technical Risks**:
+        - [ ] Dependency compatibility issues
+        - [ ] Performance impact on existing functionality
+        - [ ] Security implications of new features
+        - [ ] Scalability concerns with increased load
+
+        **Mitigation Strategies**:
+        - [ ] Fallback plans for identified risks
+        - [ ] Rollback procedures if issues arise
+        - [ ] Monitoring and alerting for new functionality
+  - type: dropdown
+    attributes:
+      label: Task Priority
+      description: Relative priority within the development section
+      options:
+        - P0 - Critical path blocker
+        - P1 - High priority feature
+        - P2 - Important but not blocking
+        - P3 - Nice to have
+  - type: dropdown
+    attributes:
+      label: Task Section
+      description: Development section this task belongs to
+      options:
+        - Section A - Foundation & Infrastructure
+        - Section B - Service Integration
+        - Section C - Core Orchestration
+        - Section D - Human Interface & Observability
+        - Section E - Production Readiness

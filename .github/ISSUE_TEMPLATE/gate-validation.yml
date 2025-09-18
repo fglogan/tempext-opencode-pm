@@ -1,0 +1,103 @@
+name: Gate Validation Task
+description: Quality gate validation with IP review and POE reporting
+labels: ["type:gate", "area:quality", "prio:P0"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Gate Validation Task
+
+        Execute quality gate validation per TES-2025 event-driven scheduling.
+  - type: textarea
+    attributes:
+      label: Gate Definition
+      value: |
+        **Gate ID**: [GATE-ID]
+        **Trigger Events**: [List of task completion events]
+        **Purpose**: [Brief description of gate purpose]
+  - type: textarea
+    attributes:
+      label: Automated Validation Requirements
+      value: |
+        - [ ] Full test harness execution (unit + integration + e2e)
+        - [ ] Full build verification across target platforms
+        - [ ] Static analysis (security, dependencies, code quality)
+        - [ ] Performance benchmarks and regression checks
+        - [ ] Contract compliance validation
+        - [ ] Documentation completeness check
+  - type: textarea
+    attributes:
+      label: Human Validation Requirements (HITL)
+      value: |
+        - [ ] POE Report generation and submission
+        - [ ] Code review for architectural compliance
+        - [ ] Security assessment and vulnerability review
+        - [ ] Usability and accessibility evaluation
+  - type: textarea
+    attributes:
+      label: Legal IP Review Requirements
+      value: |
+        - [ ] Infringement check against existing patents
+        - [ ] Mitigation strategy development for identified risks
+        - [ ] Freedom to Operate (FTO) assessment
+        - [ ] Patentability review for novel implementations
+        - [ ] IP portfolio alignment evaluation
+  - type: textarea
+    attributes:
+      label: Post-Gate Actions
+      value: |
+        - [ ] Project analyzer execution for code quality metrics
+        - [ ] Repository cleanup (temp files, dependencies, formatting)
+        - [ ] Git commit with descriptive message and proper tagging
+        - [ ] Release build generation (if gate represents release milestone)
+        - [ ] CI/CD workflow compliance verification
+        - [ ] Artifact storage and provenance tracking
+  - type: textarea
+    attributes:
+      label: Success Criteria
+      value: |
+        - [ ] All automated validations pass
+        - [ ] HITL approval received with documented rationale
+        - [ ] Legal IP review completed with mitigation strategies
+        - [ ] Post-gate actions executed successfully
+        - [ ] Gate closure event emitted with full audit trail
+  - type: textarea
+    attributes:
+      label: Gate Closure Checklist
+      value: |
+        **Pre-Closure:**
+        - [ ] All predecessor tasks completed
+        - [ ] All automated validations executed
+        - [ ] POE report submitted to HITL
+        - [ ] Legal IP review initiated
+
+        **HITL Review:**
+        - [ ] Quality assessment completed
+        - [ ] IP analysis reviewed and approved
+        - [ ] FTO evaluation satisfactory
+        - [ ] Gate closure decision documented
+
+        **Post-Closure:**
+        - [ ] Project analysis results recorded
+        - [ ] Repository cleanup completed
+        - [ ] Git commit created with artifacts
+        - [ ] Release build executed (if applicable)
+        - [ ] CI/CD compliance verified
+  - type: dropdown
+    attributes:
+      label: Gate Type
+      description: Type of quality gate
+      options:
+        - Foundation Gate - Infrastructure and architecture validation
+        - Integration Gate - Service and component integration validation
+        - Feature Gate - Feature completeness and quality validation
+        - Release Gate - Production readiness and deployment validation
+        - Security Gate - Security and compliance validation
+  - type: dropdown
+    attributes:
+      label: IP Review Priority
+      description: Urgency of legal IP review
+      options:
+        - High - Novel implementations or high-value features
+        - Medium - Standard features with potential IP implications
+        - Low - Routine implementations with minimal IP risk
