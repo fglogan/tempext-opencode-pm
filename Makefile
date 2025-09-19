@@ -20,6 +20,12 @@ log-today:
 validate-contracts:
 	python3 scripts/validate_contracts.py
 
+sidecar:
+	python3 -m venv .venv && \
+	. .venv/bin/activate && \
+	pip install -r requirements.txt && \
+	uvicorn scripts.sidecar_app:app --host 0.0.0.0 --port 8079
+
 archive-toc:
 	@echo "# ARCHIVE" > docs/ARCHIVE.md && \
 	echo -e "\n> Master index of logs & design decisions.\n" >> docs/ARCHIVE.md && \
