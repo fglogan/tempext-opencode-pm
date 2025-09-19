@@ -23,10 +23,14 @@ async fn main() {
 
     // minimal service registry (Core↔Core)
     let registry: Arc<ServiceRegistry> = context_service::default_registry();
+    let sidecar_base = std::env::var("SIDECAR_BASE").unwrap_or_else(|_| "http://127.0.0.1:8079".into());
+    let app_state = Arc::new(api::AppState { reg: registry.clone(), http: reqwest::Client::new(), sidecar_base });
+
     let app = Router::new()
         .route("/v1/health", get(api::health))
+        .route("/v1/validate", post(api::validate_proxy))
         .route("/v1/vos_dispatch", post(vos_dispatch))
-        .with_state(registry);
+        .with_state(app_state);
 
     let port = std::env::var("PORT")
         .ok()
@@ -55,7 +59,7 @@ use crate::services::specbundle::{SpecbundleCreateReq, SpecbundleService};
 use axum::{extract::State, Json};
 
 async fn vos_dispatch(
-    State(reg): State<Arc<ServiceRegistry>>,
+    State(st): State<Arc<api::AppState>>,
     Json(msg): Json<VosMessage>,
 ) -> Json<VosMessage> {
     // Handle specbundle.create directly
@@ -180,7 +184,7 @@ async fn vos_dispatch(
         }
     }
 
-    let resp = reg.dispatch(msg).await.unwrap_or_else(|e| VosMessage {
+    let resp = st.reg.dispatch(msg).await.unwrap_or_else(|e| VosMessage {
         target: "error".into(),
         op: "error".into(),
         payload: serde_json::json!({ "err": e.to_string() }),

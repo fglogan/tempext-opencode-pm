@@ -1,7 +1,7 @@
 [package]
 name = "opencode_pm"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 license = "Apache-2.0"
 
 [dependencies]
@@ -20,6 +20,7 @@ parking_lot = "0.12"
 anyhow = "1"
 dirs = "5"
 keyring = "2"
+reqwest = { version = "0.12", features = ["json"] }
 
 # stubs; wire these later
 # sqlx = { version = "0.7", features = ["runtime-tokio","postgres","macros"], optional = true }
