@@ -5,8 +5,9 @@ mod models;
 mod services;
 
 use axum::{
-    routing::{get, post},
     Router,
+    routing::{get, post},
+    http::Method,
 };
 use opencode_pm_core::{
     context_service,
@@ -23,13 +24,24 @@ async fn main() {
 
     // minimal service registry (Core↔Core)
     let registry: Arc<ServiceRegistry> = context_service::default_registry();
-    let sidecar_base = std::env::var("SIDECAR_BASE").unwrap_or_else(|_| "http://127.0.0.1:8079".into());
-    let app_state = Arc::new(api::AppState { reg: registry.clone(), http: reqwest::Client::new(), sidecar_base });
+    let sidecar_base =
+        std::env::var("SIDECAR_BASE").unwrap_or_else(|_| "http://127.0.0.1:8079".into());
+    let app_state = Arc::new(api::AppState {
+        reg: registry.clone(),
+        http: reqwest::Client::new(),
+        sidecar_base,
+    });
+
+    let cors = tower_http::cors::CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST])
+        .allow_origin(tower_http::cors::Any)
+        .allow_headers(tower_http::cors::Any);
 
     let app = Router::new()
         .route("/v1/health", get(api::health))
         .route("/v1/validate", post(api::validate_proxy))
         .route("/v1/vos_dispatch", post(vos_dispatch))
+        .layer(cors)
         .with_state(app_state);
 
     let port = std::env::var("PORT")
@@ -56,7 +68,7 @@ async fn main() {
 
 use crate::services::model_manager::{ChatBatchReq, ModelManagerService};
 use crate::services::specbundle::{SpecbundleCreateReq, SpecbundleService};
-use axum::{extract::State, Json};
+use axum::{Json, extract::State};
 
 async fn vos_dispatch(
     State(st): State<Arc<api::AppState>>,
@@ -134,14 +146,14 @@ async fn vos_dispatch(
                         target: "opencode_pm".into(),
                         op: "secrets.ok".into(),
                         payload: serde_json::json!({}),
-                    })
+                    });
                 }
                 Err(e) => {
                     return Json(VosMessage {
                         target: "error".into(),
                         op: "error".into(),
                         payload: serde_json::json!({"err":"secrets_set_failed","msg":e.to_string()}),
-                    })
+                    });
                 }
             },
             Err(e) => {
@@ -149,7 +161,7 @@ async fn vos_dispatch(
                     target: "error".into(),
                     op: "error".into(),
                     payload: serde_json::json!({"err":"bad_request","msg":e.to_string()}),
-                })
+                });
             }
         }
     }
@@ -164,14 +176,14 @@ async fn vos_dispatch(
                         target: "opencode_pm".into(),
                         op: "secrets.value".into(),
                         payload: serde_json::to_value(resp).unwrap(),
-                    })
+                    });
                 }
                 Err(e) => {
                     return Json(VosMessage {
                         target: "error".into(),
                         op: "error".into(),
                         payload: serde_json::json!({"err":"secrets_get_failed","msg":e.to_string()}),
-                    })
+                    });
                 }
             },
             Err(e) => {
@@ -179,7 +191,7 @@ async fn vos_dispatch(
                     target: "error".into(),
                     op: "error".into(),
                     payload: serde_json::json!({"err":"bad_request","msg":e.to_string()}),
-                })
+                });
             }
         }
     }
