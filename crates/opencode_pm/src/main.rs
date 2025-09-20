@@ -7,7 +7,8 @@ mod services;
 use axum::{
     Router,
     routing::{get, post},
-    http::Method,
+    http::{Method, header},
+    response::{Html, IntoResponse},
 };
 use opencode_pm_core::{
     context_service,
@@ -37,7 +38,18 @@ async fn main() {
         .allow_origin(tower_http::cors::Any)
         .allow_headers(tower_http::cors::Any);
 
+    async fn ui_index() -> impl IntoResponse {
+        let bytes = include_bytes!("./ui/index.html");
+        Html(String::from_utf8_lossy(bytes).to_string())
+    }
+    async fn ui_js() -> impl IntoResponse {
+        let bytes = include_bytes!("./ui/ui.js");
+        ([(header::CONTENT_TYPE, "application/javascript")], bytes.as_ref().to_vec())
+    }
+
     let app = Router::new()
+        .route("/", get(ui_index))
+        .route("/ui.js", get(ui_js))
         .route("/v1/health", get(api::health))
         .route("/v1/validate", post(api::validate_proxy))
         .route("/v1/vos_dispatch", post(vos_dispatch))

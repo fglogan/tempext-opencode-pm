@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenCode PM — Publisher</title>
+    <style>
+      :root { color-scheme: dark; }
+      body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:#0b1220; color:#e5e7eb; }
+      .wrap { max-width: 900px; margin: 0 auto; padding: 24px; }
+      .card { background:#0f172a; border:1px solid #1f2937; border-radius: 10px; padding: 16px; }
+      h1 { margin: 0 0 12px 0; font-size: 18px; color:#93c5fd; }
+      label { display:block; font-size:12px; color:#9ca3af; margin: 10px 0 6px; }
+      input[type=text] { width:100%; background:#0b1220; color:#e5e7eb; border:1px solid #374151; border-radius:8px; padding:10px; }
+      textarea { width:100%; background:#0b1220; color:#e5e7eb; border:1px solid #374151; border-radius:8px; padding:10px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .row { display:flex; gap:16px; }
+      .col { flex:1; }
+      button { background:#2563eb; color:#fff; border:0; border-radius:8px; padding:10px 14px; font-weight:600; cursor:pointer; }
+      button[disabled] { opacity:.6; cursor:default; }
+      .muted { color:#9ca3af; font-size:12px; }
+      .out { background:#0b1220; border:1px solid #374151; border-radius:8px; padding:10px; white-space:pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height:120px; }
+      .top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+      .badge { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid #374151; }
+      .ok { color:#10b981; border-color:#065f46; }
+      .err { color:#f87171; border-color:#7f1d1d; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <h1>OpenCode PM — Simple Publisher</h1>
+        <div id="health" class="badge muted">checking…</div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px;">
+        <div class="row">
+          <div class="col">
+            <label>Title</label>
+            <input id="title" type="text" placeholder="Spec Bundle Title" />
+          </div>
+          <div class="col">
+            <label>Created by</label>
+            <input id="createdBy" type="text" placeholder="@user" />
+          </div>
+        </div>
+        <label>Markdown Content (optional)</label>
+        <textarea id="markdown" rows="8" placeholder="# Heading\nWrite notes here…"></textarea>
+        <label>Attachment Paths (one per line)</label>
+        <textarea id="attachments" rows="4" placeholder="/absolute/path/to/file1\n/absolute/path/to/file2"></textarea>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
+          <label style="display:flex; align-items:center; gap:8px; margin:0;">
+            <input id="ingest" type="checkbox" /> Ingest after publish
+          </label>
+          <div class="muted">API: <span id="apiBase"></span></div>
+          <div style="flex:1"></div>
+          <button id="publish">Publish Bundle</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <label>Output</label>
+        <div id="out" class="out">Ready.</div>
+      </div>
+    </div>
+
+    <script src="/ui.js"></script>
+  </body>
+</html>
